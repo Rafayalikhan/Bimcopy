@@ -1,0 +1,116 @@
+.modal{
+    width: 600px;
+    height: 600px;
+    background-color: #fff;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border:solid 1px #000;
+    border-radius: 10px;
+    overflow-y: scroll;
+    overflow: hidden;
+    
+}
+.container{
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.472);
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+.tab{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 35px;
+    color: rgb(107, 107, 107);
+}
+.tab div{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tab div:hover{
+    color: var(--primary);
+}
+.close{
+        display: flex;
+        justify-content: flex-end;
+        width: 99%;
+        margin-top: 10px;
+        cursor: pointer;
+}
+.close:hover{
+    color: rgb(184, 2, 2);
+}
+
+.addicon{
+    display: flex;
+    margin: 10px;
+  
+    align-items: center;
+    align-items: center;
+    color: var(--primary);
+}
+.addicon label{
+    cursor: pointer;
+    margin-top: 20px;
+}
+.imgPrev{
+    width: 100%;
+    display: flex;
+    justify-content:center ;
+}
+.postBtn{
+    text-align: right;
+}
+.postBtn button{
+    cursor: pointer;
+    background-color: var(--primary);
+    border:none;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.learnCon{
+   display: flex;
+   justify-content: center;
+   width: 100%;
+   flex-direction: column;
+   align-items: center;
+}
+.learnCon input{
+    border:none;
+    outline: none;
+    width: 70%;
+    border-bottom: solid 1px #000;
+    margin-bottom: 20px;
+}
+.videoinput{
+    
+    margin-top: 65px;
+}
+
+.vidCon{
+  
+    height: 300px;
+}
+.vidCon video{
+    width: 100%;
+    height: 300px;
+}
+
+@media only screen and (max-width: 768px) {
+    .modal{
+        height: 100%;
+        width: 100%;
+        border-radius: 0%;
+
+    }
+  }

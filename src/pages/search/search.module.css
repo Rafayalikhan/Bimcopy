@@ -1,0 +1,50 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 100px;
+    padding-right: 100px;
+
+
+}
+.search{
+    background-color:var(--card);
+    width: 600px;
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+}
+.search input{
+    flex: 1;
+    outline: none;
+    border:none;
+    background-color: transparent;
+}
+.filters{
+   display: none;
+    }
+.filters div{
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+.filters div:hover{
+ color: #fff;
+ background-color: var(--primary);
+ cursor: pointer;
+}   
+@media only screen and (max-width: 768px) {
+   .container{ 
+       padding-right: 0px;
+   }
+   .search{
+       width: 90vw;
+   }
+   .filters {
+    margin-top: 10px;
+    display: flex;
+    width: 90vw;
+    justify-content: space-around;
+   }
+  
+   
+    }

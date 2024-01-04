@@ -1,0 +1,16 @@
+.header{
+    display: flex;
+    align-items: center;
+    color: var(--text);
+    
+}
+.header img{
+    border-radius: 100%;
+    width: 2.9em;
+    height:  2.9rem;
+}
+.userinfo{
+    margin-left: 20px;
+    font-family: 600;
+    flex: 1;
+}
