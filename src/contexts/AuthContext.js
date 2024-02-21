@@ -1,71 +1,71 @@
-import React, { createContext, useState, useEffect } from 'react';
-import {getAuth, onAuthStateChanged, signOut,signInWithEmailAndPassword}  from 'firebase/auth'
-import {useNavigate} from "react-router-dom";
+// import React, { createContext, useState, useEffect } from 'react';
+// import {getAuth, onAuthStateChanged, signOut,signInWithEmailAndPassword}  from 'firebase/auth'
+// import {useNavigate} from "react-router-dom";
 
-export const AuthContext = createContext();
+// export const AuthContext = createContext();
 
 
 
-const AuthContextProvider = (props)=>{
-    const [authuser,setAuthuser]=useState();
-    const [loading,setLoading]=useState(true);
-    let navigate = useNavigate();
+// const AuthContextProvider = (props)=>{
+//     const [authuser,setAuthuser]=useState();
+//     const [loading,setLoading]=useState(true);
+//     let navigate = useNavigate();
 
-const auth = getAuth();
-console.log(authuser)
+// const auth = getAuth();
+// console.log(authuser)
 
-const logout=()=>{
-    signOut(auth).then(() => {
+// const logout=()=>{
+//     signOut(auth).then(() => {
        
-      }).catch((error) => {
+//       }).catch((error) => {
        
-      });
+//       });
       
-}
+// }
 
 
-useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-        setLoading(true)
-        if (user) {
-         setAuthuser(user)
-         setLoading(false)
+// useEffect(()=>{
+//     onAuthStateChanged(auth, (user) => {
+//         setLoading(true)
+//         if (user) {
+//          setAuthuser(user)
+//          setLoading(false)
     
-            navigate("/",{ replace: true })
+//             navigate("/",{ replace: true })
   
         
-        } else {
+//         } else {
        
-         setAuthuser(null)
-         setLoading(false)
-         navigate("/login",{ replace: true })
-        }
-      });
-},[])
+//          setAuthuser(null)
+//          setLoading(false)
+//          navigate("/login",{ replace: true })
+//         }
+//       });
+// },[])
 
-useEffect(()=>{
+// useEffect(()=>{
   
   
   
 
-},[authuser])
+// },[authuser])
 
 
 
-if(loading){
-    return(<h1>Loadig ..</h1>)
-}else
-   {
-    return(  
-   <AuthContext.Provider value={{authuser,setAuthuser,logout}} >
-    {props.children}
-    </AuthContext.Provider>
-    )
-}
+// if(loading){
+//     return(<h1>Loadig ..</h1>)
+// }else
+//    {
+//     return(  
+//    <AuthContext.Provider value={{authuser,setAuthuser,logout}} >
+//     {props.children}
+//     </AuthContext.Provider>
+//     )
+// }
 
 
    
-}
+// }
 
 
-export default AuthContextProvider
+// export default AuthContextProvider

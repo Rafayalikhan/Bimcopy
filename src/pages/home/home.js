@@ -5,11 +5,11 @@ import JobTl from '../../components/posts/Job/jobtl'
 import LibTl from '../../components/posts/lib/lib'
 import MediaTl from '../../components/posts/media/mediaTl'
 import styles from './home.module.css'
-
+import Header from '../../components/header/header'
 const Home =()=>{
     return(
         <div className={styles.container}>
-            
+              
                 <JobTl/>
                 <IssueTl/>
                 <LibTl/>
@@ -20,4 +20,4 @@ const Home =()=>{
 }
 
 
-export default Home
+export default Home;

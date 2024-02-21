@@ -1,163 +1,292 @@
-import React, { useContext, useState } from 'react';
-import styles from './login.module.css'
-import {HiMail} from 'react-icons/hi'
-import {FaKey} from 'react-icons/fa'
 
-// import {getAuth,createUserWithEmailAndPassword} from 'firebase/auth'
-// import { AuthContext } from '../contexts/AuthContext';
-// import Loader from '../components/loader/loader';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { setUser, setToken, setError, setLoading } from '../Redux/authSlice';
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './login.module.css';
+import { HiMail } from 'react-icons/hi';
+import { FaKey } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { signUpUser } from '../Redux/authSlice';
- 
-const SignUp =(props)=>{
+import CryptoJS from 'crypto-js';
+import { Link } from 'react-router-dom';
+
+const SignUp = (props) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignUp = async () => {
+    try {
+      setLoading(true);
+
+      // Basic email validation using regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        setResultMessage('Invalid email address');
+        return;
+      }
 
 
-const [email,setEmail]=useState('')
-// const [firstName,setfirstName]=useState('')
-const [password,setpassword]=useState('')
-const [loading,setLoading]=useState(false)
-const [err,setErr]=useState(false)
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+      if (!passwordRegex.test(password)) {
+        setResultMessage('Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, and one digit.');
+        return;
+      }
+      // Basic password validation
+      // if (password.length < 6) {
+      //   setResultMessage('Password must be at least 6 characters long');
+      //   return;
+      // }
 
-const dispatch = useDispatch()
-
-const handlesignup =async()=>{
-try {
-    setLoading(true);
-
-    // Your sign-up logic here, for example, making an API call
-    // Replace the following with your actual sign-up logic
-    await dispatch(signUpUser({email,password}))
-
-    // If successful, you might want to redirect or show a success message
-  } catch (error) {
-    // Handle errors, show error messages, etc.
-  } finally {
-    setLoading(false);
-  }
-  
+      // Your sign-up logic here
+      const hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
 
 
-}
-// dispatch(signUpUser({email,password}))
-    // const user = useSelector((state) => state.auth.user);
-    // const token = useSelector((state) => state.auth.token);
-    // const loading = useSelector((state) => state.auth.loading);
-    // const error = useSelector((state) => state.auth.error);
-    // const dispatch = useDispatch();
+      const result = await dispatch(signUpUser({ email, password:hashedPassword }));
+       
+      // Check if the sign-up was successful
+      if (result.error) {
+        // Check if the error is due to an existing user
+        if (result.error.includes('User with this email already exists')) {
+          setResultMessage('User with this email already exists');
+        } else {
+          setResultMessage(result.error);
+        }
+      } else {
+        // Clear the input fields
+        setEmail('');
+        setPassword('');
+
+        // Update result message to show success message
+        setResultMessage('Successfully registered!');
+
+        // Redirect to login page after a brief delay
+        setTimeout(() => {
+          navigate('/');
+        }, 2000); // Redirect after 2 seconds (adjust the delay as needed)
+      }
+    } catch (error) {
+      console.error('Sign-up failed:', error);
+      setResultMessage('User with this email already exists');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.main}>
+        <div className={styles.header}>
+          <h1>Sign up</h1>
+          <div>Stay updated on your professional world</div>
+        </div>
+        <div className={styles.form}>
+          <div className={styles.inputGroup}>
+            <div className={styles.icon}>
+              <HiMail size={24} />
+            </div>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+            />
+          </div>
+        </div>
+        <div className={styles.form}>
+          <div className={styles.inputGroup}>
+            <div className={styles.icon}>
+              <FaKey size={22} />
+            </div>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+
+          {resultMessage && (
+            <div style={{ marginTop: '10px', color: resultMessage.includes('Success') ? 'green' : 'red' }}>
+              {resultMessage}
+            </div>
+          )}
+
+          {loading ? (
+            <div style={{ width: '30px', height: '30px' }} className="loader"></div>
+          ) : (
+            <button className={styles.btn} onClick={handleSignUp}>
+              Create Account
+            </button>
+          )}
+
+<div
+  style={{ marginTop: '10px', cursor: 'pointer', color: 'var(--primary)' }}
+>
+  <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
+    Go to Login
+  </Link>
+</div>
+
+          <div className="btn-linkedin">
+            <a href="#" title="LinkedIn" className="btn btn-linkedin btn-lg">
+              <i className="fa fa-linkedin fa-fw"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SignUp;
 
 
 
 
-//  const {authUser,setAuthuser}=useContext(AuthContext);
 
-//     const auth = getAuth();
 
-// const [email,setEmail]=useState('')
-// const [pass,setPass]=useState('')
-// const [cpass,setCpass]=useState('')
-// const [loading,setLoading]=useState(false)
-// const [err,setErr]=useState(false)
 
-//     const handlesignup =()=>{
-//         setErr(false)
-//         setLoading(true)
-//         if(pass===cpass){
-//        createUserWithEmailAndPassword(auth,email,pass).then((res)=>{
-//            setAuthuser(res.user);
-//            setLoading(false)
-//        }).catch((err=>{
-//            console.log(err)
-//            setLoading(false)
-//        }))}else{
-//            setErr(true)
-//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+// import styles from './login.module.css';
+// import { HiMail } from 'react-icons/hi';
+// import { FaKey } from 'react-icons/fa';
+// import { useDispatch } from 'react-redux';
+// import { signUpUser } from '../Redux/authSlice';
+
+// const SignUp = (props) => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState('');
+
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate(); // Use useNavigate for navigation
+
+//   const handleSignUp = async () => {
+//     try {
+//       setLoading(true);
+
+//       // Basic email validation
+//       if (!email.trim() || !email.includes('@')) {
+//         setError('Invalid email address');
+//         return;
+//       }
+
+//       // Basic password validation
+//       if (password.length < 6) {
+//         setError('Password must be at least 6 characters long');
+//         return;
+//       }
+
+//       // Your sign-up logic here
+//      const result = await dispatch(signUpUser({ email, password }));
+
+//       if (result.error) {
+//         // Check if the error is due to an existing user
+//         if (result.error.includes('User with this email already exists')) {
+//           setError('User with this email already exists');
+//         } else {
+//           setError(result.error);
+//         }
+//       } else {
+//         // Redirect to login page after successful sign-up
+//         setEmail('');
+//         setPassword('');
+//         navigate('/login');
+//       }
 //     }
 
-
-
-
-    return(
-
-      //   <div className="signup-container">
-      //   <h1>Sign Up</h1>
-      //   <div className="form-group">
-      //     <label>Email:</label>
-      //     <input type="text" placeholder="Enter your email" />
-      //   </div>
-      //   <div className="form-group">
-      //     <label>Password:</label>
-      //     <input type="password" placeholder="Enter your password" />
-      //   </div>
-      //   <div className="form-group">
-      //     <label>Confirm Password:</label>
-      //     <input type="password" placeholder="Confirm your password" />
-      //   </div>
-      //   <button onClick={handleSignUp}>Sign Up</button>
-      //   {loading && <div className="loading-indicator">Loading...</div>}
-      //   {error && <div className="error-message">Error: {error}</div>}
-      //   {user && <div className="user-info">User: {user}</div>}
-      //   {token && <div className="token-info">Token: {token}</div>}
-      // </div>
-    
-    
-          <div className={styles.container}>
-            <div className={styles.main}>
-                <div  className={styles.header}>
-                <h1>Sing up</h1>
-                <div>Stay updated on your professional world</div>
-                </div>
-                <div className={styles.form}>
-               
-                    <div className={styles.inputGroup}>
-                        <div className={styles.icon}>
-                    <HiMail size={24} />
-                    </div>
-                    <input value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Email"  />
-                   
-                                  
-            
-            </div>
-            </div>
-            <div className={styles.form}>
-            <div className={styles.inputGroup}>
-                   <div className={styles.icon}>
-               <FaKey size={22} />
-               </div>
-               <input value={password} onChange={(e)=>setpassword(e.target.value)} type="password" placeholder="Password"/>
-               </div>
-      {/* //  </div>
-      //       <div className={styles.form}>
-               
-      //          <div className={styles.inputGroup}>
-      //              <div className={styles.icon}>
-      //          <FaKey size={22} />
-      //          </div>
-      //          <input value={cpass} onChange={(e)=>setCpass(e.target.value)} type="password" placeholder="Confirm Password"/>
-      //  </div>
-     */}
-       
-       {err?
-       <div style={{marginTop:"10px",color:"red"}}>Password din't match</div>
-       :""}
-
-       {loading?
-         <div style={{width:"30px",height:"30px"}} className="loader"></div>:
-         <button className={styles.btn} onClick={handlesignup} >Create Account</button>
-       }
+//       // Redirect to login page after successful sign-up
      
-     <div style={{marginTop:"10px",cursor:'pointer',color:"var(--primary)"}} onClick={props.gotologin} >Goto Login</div>
-    
-    <div className='btn-linkedin'>
-     <a href="#" title="LinkedIn" class="btn btn-linkedin btn-lg"><i class="fa fa-linkedin fa-fw"></i> LinkedIn</a>
-     </div>
-       </div>
-            </div>
-          
-        </div>
-    )
-}
+//     catch (error) {
+//       console.error('Sign-up failed:', error);
+//       setError('User with this email already exists');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
+//   return (
+//     <div className={styles.container}>
+//       <div className={styles.main}>
+//         <div className={styles.header}>
+//           <h1>Sign up</h1>
+//           <div>Stay updated on your professional world</div>
+//         </div>
+//         <div className={styles.form}>
+//           <div className={styles.inputGroup}>
+//             <div className={styles.icon}>
+//               <HiMail size={24} />
+//             </div>
+//             <input
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//               placeholder="Email"
+//               required
+//             />
+//           </div>
+//         </div>
+//         <div className={styles.form}>
+//           <div className={styles.inputGroup}>
+//             <div className={styles.icon}>
+//               <FaKey size={22} />
+//             </div>
+//             <input
+//               value={password}
+//               onChange={(e) => setPassword(e.target.value)}
+//               type="password"
+//               placeholder="Password"
+//               required
+//             />
+//           </div>
 
-export default SignUp
+//           {error && <div style={{ marginTop: '10px', color: 'red' }}>{error}</div>}
+
+//           {loading ? (
+//             <div style={{ width: '30px', height: '30px' }} className="loader"></div>
+//           ) : (
+//             <button className={styles.btn} onClick={handleSignUp}>
+//               Create Account
+//             </button>
+//           )}
+
+//           <div
+//             style={{ marginTop: '10px', cursor: 'pointer', color: 'var(--primary)' }}
+//             onClick={props.gotologin}
+//           >
+//             Go to Login
+//           </div>
+
+//           <div className="btn-linkedin">
+//             <a href="#" title="LinkedIn" className="btn btn-linkedin btn-lg">
+//               <i className="fa fa-linkedin fa-fw"></i> LinkedIn
+//             </a>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default SignUp;

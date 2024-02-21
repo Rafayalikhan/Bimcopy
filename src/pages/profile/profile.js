@@ -4,6 +4,7 @@ import {BiEdit} from 'react-icons/bi'
 import EditProfile from './edit-profile';
 import JobTl from '../../components/posts/Job/jobtl';
 import IssueTl from '../../components/posts/issue/issueTl';
+import Header from '../../components/header/header';
 
 
 const Profile =()=>{
@@ -14,6 +15,8 @@ const handlemodal = () => setmodal(!modal);
 
     return(
         <div className={styles.container}>
+       
+    
           {modal?
           <EditProfile
           closemodal={()=>handlemodal()}

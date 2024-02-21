@@ -39,7 +39,7 @@ const onSelectFile = e => {
             <img src={preview} /> </div>:""}
                 
 
-                    <textarea
+            <ReactQuill
                     value={content}
                     onChange={(value)=>setContent(value)}
                     style={{height:"300px",margin:"10px",width:'90%',marginBottom:"50px"}}

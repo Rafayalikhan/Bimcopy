@@ -1,33 +1,54 @@
 import React, { useState } from 'react'
 import styles from './Header.module.css'
-import {AiFillHome,AiOutlineSetting,AiOutlineBell,AiOutlineSearch,AiOutlineMessage,AiOutlineHome,AiOutlineRead,AiOutlinePlus } from 'react-icons/ai';
+import {AiOutlineSetting,AiOutlineBell,AiOutlineSearch,AiOutlineHome,AiOutlineRead,AiOutlinePlus } from 'react-icons/ai';
 import {RiBookmarkLine,RiSuitcaseLine,RiAddCircleLine,RiArticleLine} from 'react-icons/ri'
-import {BiUserCircle} from 'react-icons/bi'
-import {BsHash,BsNewspaper} from 'react-icons/bs'
+// import {BiUserCircle} from 'react-icons/bi'
+// import {BsHash,BsNewspaper} from 'react-icons/bs'
 import {BiErrorCircle,BiLibrary} from 'react-icons/bi'
-import {MdOutlinePoll} from 'react-icons/md'
-import { Link,useMatch,useResolvedPath} from 'react-router-dom';
+// import {MdOutlinePoll} from 'react-icons/md'
+import { Link,useMatch,useLocation } from 'react-router-dom';
 import Notification from './notification';
- 
-
+import { setToken } from '.././../Redux/authSlice'
+import logo from '../logo/logo.png'
 
 
 const Header = (props)=>{
  
- 
- let homeActive = useMatch({path:"/",end:true})
- let searchActive = useMatch({path:"/search"})
- let profileActive = useMatch({path:"/profile"})
- let issueActive = useMatch({path:"/issue"})
- let articleActive = useMatch({path:"/articles"})
- let jobActive = useMatch({path:"/job"})
- let  learnActive = useMatch({path:'learn'})
- let  notiActive = useMatch({path:'notification'})
- let libActive = useMatch({path:'lib'})
- let SettingActive = useMatch({path:'setting'})
+    const location = useLocation();
+    
+    // Extracting pathname from the location object
+    const [showNotofication,setShowNotification] = React.useState(false)
+    
+  
+   
+    
+    const pathname = location.pathname;
+  
+    // Your existing code...
+    let homeActive = pathname === "/home";
+    let searchActive = pathname === "/search";
+    let profileActive = pathname === "/profile";
+    let issueActive = pathname === "/issue";
+    let articleActive = pathname === "/articles";
+    let jobActive = pathname === "/job";
+    let learnActive = pathname === '/learn';
+    let notiActive = pathname === '/notification';
+    let libActive = pathname === '/lib';
+    let SettingActive = pathname === '/setting';
+  
+//  let homeActive = useMatch({path:"/home"})
+//  let searchActive = useMatch({path:"/search"})
+//  let profileActive = useMatch({path:"/profile"})
+//  let issueActive = useMatch({path:"/issue"})
+//  let articleActive = useMatch({path:"/articles"})
+//  let jobActive = useMatch({path:"/job"})
+//  let  learnActive = useMatch({path:'learn'})
+//  let  notiActive = useMatch({path:'notification'})
+//  let libActive = useMatch({path:'lib'})
+//  let SettingActive = useMatch({path:'setting'})
 
 
- const [showNotofication,setShowNotification] = useState(false)
+
 
 
 
@@ -44,7 +65,7 @@ const Header = (props)=>{
             <div>    
                 
             <div className={styles.logo} >
-            <img src="./logo.png" />
+            <img src={logo}/>
             </div>
           
             <div  className={styles.navBar}>
@@ -52,7 +73,7 @@ const Header = (props)=>{
                 <RiAddCircleLine size={30} />
                 <span>Post</span>
             </div>
-            <Link  to="/" style={homeActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.item}>
+            <Link  to="/home" style={homeActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.item}>
                 <AiOutlineHome  size={30} />
                 <span>Home</span>
             </Link>
@@ -89,7 +110,7 @@ const Header = (props)=>{
             <div className={styles.nav}>
                 <div className={styles.icons}>
                 <Link  to="/profile" >
-                <img className={styles.pp} src="https://www.pixinvent.com/materialize-material-design-admin-template/laravel/demo-4/images/user/12.jpg" 
+                <img className={styles.pp} src="" 
                  style={profileActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}} />
                 </Link>
                 
@@ -116,9 +137,9 @@ const Header = (props)=>{
 
             <div className={styles.tab}>
             <Link  to="/"  style={homeActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.tabIcon} ><AiOutlineHome size={24} height={24} width={24}/></Link>
-            <Link  to="/search"  style={searchActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.tabIcon}  className={styles.tabIcon}><AiOutlineSearch size={24} /></Link>
+            <Link  to="/search"  style={searchActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.tabIcon}><AiOutlineSearch size={24} /></Link>
             <div className={styles.tabIcon} onClick={props.openaddpost} ><AiOutlinePlus size={24} /></div>
-            <Link  to="/notification"  style={notiActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.tabIcon}  className={styles.tabIcon}><AiOutlineBell size={24} /></Link>
+            <Link  to="/notification"  style={notiActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.tabIcon}><AiOutlineBell size={24} /></Link>
             <Link  to="/profile"  style={profileActive?{backgroundColor:"var(--primary)",color:"#fff"}:{}}  className={styles.tabIcon} >                 <img className={styles.pp} src="https://www.pixinvent.com/materialize-material-design-admin-template/laravel/demo-4/images/user/12.jpg" />
 
 </Link>
